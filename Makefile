@@ -7,7 +7,7 @@ build: src link
 
 compile:
 	@mkdir -p build/s
-	@$(CC65) -t none --cpu 65c02 -O -o build/s/main.s src/main.c
+	@$(CC65) -t none --cpu 65c02 -O -o build/s/main.s src/main.c -I src
 
 assemble: compile
 	@mkdir -p build/o
