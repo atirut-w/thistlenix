@@ -18,4 +18,4 @@ link: assemble
 	@$(LD65) -C 3rd/Thistle/cc65/thistle.cfg -o build/kernel build/o/*.o 3rd/Thistle/cc65/thistle.lib
 
 clean:
-	@rm -rf build/s build/o build/kernel
+	@rm -rf build/s build/o
