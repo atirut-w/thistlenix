@@ -3,13 +3,11 @@ CC65 = cc65
 CA65 = ca65
 LD65 = ld65
 
-INCLUDE_DIRS = -I src
-
 build: src compile assemble link
 
 compile:
 	mkdir -p build/s
-	find src/ -name '*.c' -exec sh -c '$(CC65) -t none -O --cpu 65c02 -o build/s/$$(basename {} .c).s {} -I $(INCLUDE_DIRS)' ';'
+	find src/ -name '*.c' -exec sh -c '$(CC65) -t none -O --cpu 65c02 -o build/s/$$(basename {} .c).s {} -I src/' \;
 	find src/ -name '*.s' -exec cp {} build/s/ \;
 
 assemble:
