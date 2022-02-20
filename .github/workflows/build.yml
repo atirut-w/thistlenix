@@ -1,0 +1,27 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow-dispatch:
+
+jobs:
+  build:
+    name: Build project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install CC65 from source
+        run: |
+          git clone https://github.com/cc65/cc65.git
+          cd cc65
+          make
+          sudo make avail
+
+      - name: Build project
+        uses: actions/checkout@v2
+        run: |
+          make
+          
