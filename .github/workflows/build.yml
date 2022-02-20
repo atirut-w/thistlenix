@@ -20,8 +20,10 @@ jobs:
           make
           sudo make avail
 
+      - name: Checkout project
+        using: actions/checkout@v2
+
       - name: Build project
-        uses: actions/checkout@v2
         run: |
           make
           
