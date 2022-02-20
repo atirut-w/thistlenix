@@ -4,6 +4,7 @@
 
 void main() {
     char tmpbuf[64];
+    char component_count;
 
     print("Listing components...\n");
     exec_cmd(3);
@@ -12,7 +13,9 @@ void main() {
         print("Bad IO\n");
     }
 
+    component_count = get_cmd_info();
+
     print("Component count: ");
-    itoa(get_cmd_info(), tmpbuf, 10);
-    print(tmpbuf);
+    print(itoa(component_count, tmpbuf, 10));
+    print("\n");
 }
