@@ -3,7 +3,7 @@
 
 struct component {
     char uuid[16];
-    char name[32];
+    char name[16];
 };
 
 // List connected components
