@@ -1,21 +1,22 @@
 #include <stdlib.h>
 #include "include/utils.h"
 #include "include/compmapper.h"
+#include "include/component.h"
 
 void main() {
-    char tmpbuf[64];
-    char component_count;
-
     print("Listing components...\n");
-    exec_cmd(3);
 
-    if (get_cmd_status() != 0x0) {
-        print("Bad IO\n");
+    {
+        char i, component_count, tmpbuffer[16];
+        struct component *components;
+
+        components = list_components();
+        component_count = get_component_count();
+
+        for (i = 0; i < component_count; i++) {
+            print("Component ");
+            print(components[i].name);
+            print("\n");
+        }
     }
-
-    component_count = get_cmd_info();
-
-    print("Component count: ");
-    print(itoa(component_count, tmpbuf, 10));
-    print("\n");
 }
