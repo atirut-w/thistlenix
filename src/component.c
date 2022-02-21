@@ -41,12 +41,14 @@ void expect_tag(char expected, char actual) {
     }
 }
 
+char get_component_count() {
+    exec_cmd(3);
+    return get_cmd_info();
+}
+
 struct component *list_components() {
     struct component components[16];
-    char component_count;
-
-    exec_cmd(3);
-    component_count = get_cmd_info();
+    char component_count = get_component_count();
 
     {
         char i;
@@ -66,14 +68,13 @@ struct component *list_components() {
             expect_tag(10, tag);
 
             strlen = read_result_buffer();
-            read_result_buffer(); // Discard the null byte
+            read_result_buffer(); // Discard whatever the first byte is
             for (xi = 0; xi < strlen; xi++) {
                 components[i].name[xi] = read_result_buffer();
                 // *(char *)0xe003 = read_result_buffer();
             }
             components[i].name[xi] = 0;
         }
-        components[i].name[0] = 0;
     }
 
     return components;

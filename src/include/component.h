@@ -6,6 +6,8 @@ struct component {
     char name[16];
 };
 
+// Get the amount of components
+char get_component_count();
 // List connected components
 struct component *list_components();
 
