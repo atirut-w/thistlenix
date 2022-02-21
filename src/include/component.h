@@ -1,7 +1,7 @@
 #ifndef COMPOENENT_H
 #define COMPOENENT_H
 
-struct component {
+struct componentinfo {
     unsigned char uuid[16];
     char name[16];
 };
@@ -10,6 +10,6 @@ struct component {
 char get_component_count();
 
 // List components.
-struct component *list_components();
+struct componentinfo *list_components();
 
 #endif

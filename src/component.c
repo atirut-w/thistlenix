@@ -22,8 +22,8 @@ char get_component_count() {
     return PEEK(0xE011);
 }
 
-struct component *list_components() {
-    struct component components[16];
+struct componentinfo *list_components() {
+    struct componentinfo components[16];
     char component_count, ci;
     char tmpbuffer[4];
 

@@ -8,7 +8,7 @@ void main() {
     {
         char i;
         char component_count = get_component_count();
-        struct component *components = list_components();
+        struct componentinfo *components = list_components();
 
         print("Component count: ");
         print(itoa(component_count, tmpbuffer, 10));
