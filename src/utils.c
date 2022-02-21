@@ -1,8 +1,8 @@
 #include "include/utils.h"
-#include <stdlib.h>
+#include "include/peekpoke.h"
 
 void print(const char *message) {
     while (*message) {
-        *(char *)0xe003 = *message++;
+        POKE(0xE003, *message++);
     }
 }
