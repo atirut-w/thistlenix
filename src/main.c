@@ -14,7 +14,7 @@ void main() {
         print(itoa(component_count, tmpbuffer, 10));
         print("\n");
 
-        for (i = 0; i < component_count - 1; i++) {
+        for (i = 0; i < component_count; i++) {
             print("Component ");
             print(itoa(i, tmpbuffer, 10));
             print(": ");
