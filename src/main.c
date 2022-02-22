@@ -1,5 +1,6 @@
-#include "include/utils.h"
+#include "include/printf.h"
 
 void main() {
-    print("Hello, world!\n");
+    printf("Hello, %s!\n", "world");
+    printf("%d\n", 123);
 }
