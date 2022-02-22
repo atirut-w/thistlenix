@@ -6,6 +6,14 @@ struct componentinfo {
     char name[16];
 };
 
+struct componentwrapper {
+    char cmd_status;
+    char cmd_io;
+    char cmd_flag;
+    char uuid[16];
+    char name[32];
+};
+
 // Get the number of connected components.
 char get_component_count();
 
