@@ -1,4 +1,5 @@
 #include "print.h"
+#include "peekpoke.h"
 
 void print(const char *msg) {
     while (*msg) {
