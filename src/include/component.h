@@ -6,4 +6,6 @@ typedef struct componentdata {
     char name[16];
 } componentdata_t;
 
+void list_component(componentdata_t *buffer);
+
 #endif
