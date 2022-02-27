@@ -1,6 +1,8 @@
 #include "peekpoke.h"
+#include "print.h"
 
 void main() {
+    print("OK\n");
     while (1) {
         char avail = PEEK(0xE000);
 
