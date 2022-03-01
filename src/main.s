@@ -5,4 +5,4 @@
     rts
 
 text:
-    .asciiz "Hello World!\n"
+    .byte "Hello World!", $0a, 0
