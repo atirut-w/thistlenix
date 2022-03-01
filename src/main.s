@@ -1,5 +1,8 @@
+.import print
 .segment "STARTUP"
-    lda #'O'
-    sta $E003
-    lda #'K'
-    sta $E003
+    lda #<text
+    jsr print
+    rts
+
+text:
+    .asciiz "Hello World!\n"
