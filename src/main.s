@@ -1,6 +1,6 @@
 .import print
 .segment "STARTUP"
-    lda #<text
+    ldx #<text
     jsr print
     rts
 
