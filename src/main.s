@@ -1,28 +1,30 @@
 .segment "CODE"
 
-; Subroutines
 .include "subroutines/print.s"
 .include "subroutines/printhex.s"
-
-; Libraries
-.include "errno.s"
-.include "component.s"
 
 .segment "RODATA"
 
 .scope text
-newline: .byte $0a, 0
-component_count: .byte "Component count: ", 0
+newline: .byte 10, 0
+helloworld: .byte "Hello, World!", 10, 0
 .endscope
 
 .segment "STARTUP"
-    ldx #<text::component_count
+    lda #>text::helloworld
+    pha
+    lda #<text::helloworld
+    pha
     jsr print
 
-    jsr component::get_count
+    lda #$13
+    pha
     jsr printhex
 
-    ldx #<text::newline
+    lda #>text::newline
+    pha
+    lda #<text::newline
+    pha
     jsr print
 
     rts

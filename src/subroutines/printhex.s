@@ -2,21 +2,19 @@
 _PRINTHEX_S_ = 1
 
 .proc printhex
+    pla
+    sta return_addr
+    pla
+    sta return_addr+1
 
-.segment "RODATA"
+    pla
+    tax
 
-hexlookup:
-    .byte "0123456789ABCDEF"
-
-.segment "CODE"
-    txa
     and #$f0
-
     lsr
     lsr
     lsr
     lsr
-
     tay
     lda hexlookup,y
     sta $e003
@@ -27,8 +25,13 @@ hexlookup:
     lda hexlookup,y
     sta $e003
 
+    lda return_addr+1
+    pha
+    lda return_addr
+    pha
     rts
-
+return_addr: .res 2
+hexlookup: .byte "0123456789abcdef"
 .endproc
 
 .endif
