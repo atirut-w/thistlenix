@@ -1,4 +1,5 @@
-.import print
+.include "subroutines/print.s"
+
 .segment "STARTUP"
     ldx #<text
     jsr print
