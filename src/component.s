@@ -17,9 +17,21 @@ _COMPONENT_S_ = 1
     lda #3
     sta $e010
 
+    lda $e010
+    cmp #0
+    bne error
+
     lda $e011
     pha
+    jmp end
 
+error:
+    lda #EIO
+    sta errno
+    lda #0
+    pha
+
+end:
     lda return_addr+1
     pha
     lda return_addr
