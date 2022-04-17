@@ -4,14 +4,28 @@
 .include "subroutines/print.s"
 .include "subroutines/printhex.s"
 
+; Libraries
+.include "component.s"
+
 .segment "RODATA"
 
-text:
-    .byte "Hello World!", $0a, 0
+.scope text
+
+newline: .byte $0a, 0
+component_count: .byte "Component count: ", 0
+
+.endscope
 
 .segment "STARTUP"
-    ldx #<text
+    ldx #<text::component_count
     jsr print
-    ldx #$13
+
+    jsr component::get_count
+    tya
+    tax
     jsr printhex
+
+    ldx #<text::newline
+    jsr print
+
     rts
