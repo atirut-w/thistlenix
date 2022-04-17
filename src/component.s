@@ -10,9 +10,7 @@ _COMPONENT_S_ = 1
     lda #3
     sta $e010
 
-    ldx $e010
-    ldy $e011
-
+    ldx $e011
     rts
 .endproc
 

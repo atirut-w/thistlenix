@@ -21,8 +21,6 @@ component_count: .byte "Component count: ", 0
     jsr print
 
     jsr component::get_count
-    tya
-    tax
     jsr printhex
 
     ldx #<text::newline
