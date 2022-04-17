@@ -13,7 +13,7 @@ _PRINT_S_ = 1
     tay
 
 loop:
-    lda $200, x
+    lda $200, x ; TODO: use high byte of address
     cmp #0
     beq end
     sta $e003
@@ -26,6 +26,7 @@ end:
     lda return_addr
     pha
     rts
+
 return_addr: .res 2
 .endproc
 

@@ -2,6 +2,7 @@
 
 .include "subroutines/print.s"
 .include "subroutines/printhex.s"
+.include "component.s"
 
 .segment "RODATA"
 
@@ -11,14 +12,7 @@ helloworld: .byte "Hello, World!", 10, 0
 .endscope
 
 .segment "STARTUP"
-    lda #>text::helloworld
-    pha
-    lda #<text::helloworld
-    pha
-    jsr print
-
-    lda #$13
-    pha
+    jsr component::get_count
     jsr printhex
 
     lda #>text::newline

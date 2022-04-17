@@ -30,6 +30,7 @@ _PRINTHEX_S_ = 1
     lda return_addr
     pha
     rts
+
 return_addr: .res 2
 hexlookup: .byte "0123456789abcdef"
 .endproc
