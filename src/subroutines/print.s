@@ -1,3 +1,6 @@
+.ifndef _PRINT_S_
+_PRINT_S_ = 1
+
 .proc print
     lda $200, x
     cmp #0
@@ -8,3 +11,5 @@
 end:
     rts
 .endproc
+
+.endif
