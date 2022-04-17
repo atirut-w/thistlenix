@@ -5,6 +5,8 @@ _COMPONENT_S_ = 1
 ; See: https://github.com/gamax92/Thistle/wiki/Component-Mapper
 
 .include "errno.s"
+.include "subroutines/print.s"
+.include "subroutines/printhex.s"
 
 .scope component
 
@@ -39,6 +41,38 @@ end:
     rts
 
 return_addr: .res 2
+.endproc
+
+.proc list_components
+    jsr get_count
+    pla
+    sta component_count
+    ldx #0
+
+loop:
+    lda i
+    pha
+    jsr printhex
+
+    lda #>newline
+    pha
+    lda #<newline
+    pha
+    jsr print
+
+    lda i
+    cmp component_count
+    beq end
+    inc
+    sta i
+    jmp loop
+
+end:
+    rts
+
+newline: .byte 10, 0
+component_count: .byte 0
+i: .byte 0
 .endproc
 
 .endscope
