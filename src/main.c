@@ -2,9 +2,10 @@
 #include "basicio.h"
 #include "memory.h"
 #include "component.h"
+#include "interrupt.h"
 
 void irq() {
-    __asm__("sei"); // Disable interrupts while we're in here
+    DISABLE_IRQ();
 
     print("Current uptime in ticks: $");
     printhex(PEEK(0xe059));
@@ -15,16 +16,14 @@ void irq() {
     POKE(0xe05a, 20);
     POKE(0xe05b, 0);
 
-    __asm__("cli"); // Enable interrupts again
-    __asm__("rti"); // Done
+    ENABLE_IRQ();
+    RTI();
 }
 
 void main() {
     component_data_t *components;
     char compcount;
     char i;
-
-    __asm__("sei");
 
     initialize_kernel_heap();
     components = (component_data_t *)kmalloc(sizeof(component_data_t) * 16);
@@ -38,8 +37,7 @@ void main() {
     kfree(components);
 
     // Set up IRQ handler
-    POKE(0xfffe, (unsigned short)irq & 0xff);
-    POKE(0xffff, (unsigned short)irq >> 8);
+    SET_HANDLER(0xfffe, irq);
 
     // Set up timer to trigger IRQ every tick(1/20 s)
     POKE(0xe05a, 20);
@@ -47,6 +45,5 @@ void main() {
     POKE(0x0e05e, 1);
 
     print("OK\n");
-    __asm__("cli");
     while (1) {}
 }
