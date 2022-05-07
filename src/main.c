@@ -1,19 +1,30 @@
 #include "peekpoke.h"
-#include "print.h"
+#include "basicio.h"
+#include "component.h"
 
 void main() {
-    print("OK\n");
-    while (1) {
-        char avail = PEEK(0xE000);
+    component_data_t components[16];
+    char compcount;
+    char i;
+    char j;
 
-        if (avail > 0) {
-            char c = PEEK(0xE001);
+    compcount = list_components(components);
 
-            if (c == 0) {
-                c = PEEK(0xE001); // Discard
-            } else {
-                POKE(0xE003, c);
-            }
+    print("0x");
+    printhex(compcount);
+    print(" components found.\n");
+
+    for (i = 0; i < compcount; i++) {
+        print("  0x");
+        printhex(i);
+        print(" ");
+        for (j = 0; j < 16; j++) {
+            printhex(components[i].uuid[j]);
         }
+        print(" ");
+        print(components[i].type);
+        print("\n");
     }
+
+    print("OK\n");
 }
