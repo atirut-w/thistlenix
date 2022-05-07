@@ -14,8 +14,7 @@ char list_components(component_data_t *buffer) {
     char tag;
     unsigned short strlen;
 
-    POKE(0xe010, 3);
-    compcount = PEEK(0xe011);
+    compcount = get_component_count();
 
     if (buffer == 0) {
         return compcount;
