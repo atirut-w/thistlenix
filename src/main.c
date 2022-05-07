@@ -18,6 +18,8 @@ void irq() {
 }
 
 void main() {
+    __asm__("sei");
+
     // Set up IRQ handler
     POKE(0xfffe, (unsigned short)irq & 0xff);
     POKE(0xffff, (unsigned short)irq >> 8);
@@ -28,4 +30,6 @@ void main() {
     POKE(0x0e05e, 1);
 
     print("OK\n");
+    __asm__("cli");
+    while (1) {}
 }
