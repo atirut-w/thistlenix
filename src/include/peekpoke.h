@@ -1,5 +1,5 @@
-#ifndef _PEEKPOKE_H
-#define _PEEKPOKE_H
+#ifndef _PEEKPOKE_H_
+#define _PEEKPOKE_H_
 
 #define PEEK(addr) (*(unsigned char *)(addr))
 #define POKE(addr, data) (*(unsigned char *)(addr) = (data))
