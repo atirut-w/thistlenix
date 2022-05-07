@@ -2,6 +2,11 @@
 #include "peekpoke.h"
 #include "basicio.h"
 
+char get_component_count() {
+    POKE(0xe010, 3);
+    return PEEK(0xe011);
+}
+
 char list_components(component_data_t *buffer) {
     char compcount;
     char i;

@@ -7,6 +7,7 @@ typedef struct {
     unsigned char type[32];
 } component_data_t;
 
+char get_component_count();
 char list_components(component_data_t *buffer);
 
 #endif
