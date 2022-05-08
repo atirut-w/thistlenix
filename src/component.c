@@ -2,6 +2,8 @@
 #include "peekpoke.h"
 #include "basicio.h"
 
+char mapped_components = 0;
+
 char get_component_count() {
     POKE(0xe010, 3);
     return PEEK(0xe011);
