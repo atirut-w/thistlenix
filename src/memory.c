@@ -6,8 +6,9 @@
 malloc_header_t *kernel_heap = (malloc_header_t *)KERNEL_HEAP_BEGIN;
 
 void initialize_kernel_heap() {
-    kernel_heap->size = 0x9fff - KERNEL_HEAP_BEGIN;
+    kernel_heap->size = KERNEL_HEAP_END - KERNEL_HEAP_BEGIN;
     kernel_heap->used = 0;
+    kernel_heap->next = 0;
     print("Initialized kernel heap at $");
     printhex(KERNEL_HEAP_BEGIN >> 8);
     printhex(KERNEL_HEAP_BEGIN & 0xff);
@@ -15,62 +16,75 @@ void initialize_kernel_heap() {
 }
 
 void *kmalloc(unsigned short size) {
-    unsigned short realsize;
-    malloc_header_t *chunk, *other;
+    malloc_header_t *block, *next;
 
-    if ((realsize = sizeof(malloc_header_t) + size) < KMALLOC_MINSIZE) {
-        realsize = KMALLOC_MINSIZE;
+    if (size == 0) {
+        return 0;
     }
 
-    chunk = kernel_heap;
-    while (chunk->used || chunk->size < realsize) {
-        if (chunk->size == 0) {
-            print("Corrupted chunk with null size at $");
-            printhex((unsigned short)chunk >> 8);
-            printhex((unsigned short)chunk & 0xff);
-            print("\n");
+    block = kernel_heap;
+
+    while (block->used) {
+        if (block->size == 0) {
+            print("Corrupted block metadata at $");
+            printshort(block);
+            print(".\n");
             halt();
         }
 
-        chunk = (malloc_header_t *)((char *)chunk + chunk->size);
+        block = block->next;
 
-        if (chunk == kernel_heap) {
-            print("Out of memory\n");
+        if ((unsigned short)block > KERNEL_HEAP_END) {
+            print("Out of memory.\n");
             halt();
         }
     }
 
-    if (chunk->size - realsize < KMALLOC_MINSIZE) {
-        chunk->used = 1;
-    } else {
-        other = (malloc_header_t *)((char *)chunk + realsize);
-        other->size = chunk->size - realsize;
-        other->used = 0;
+    block->size = sizeof(malloc_header_t) + size;
+    block->used = 1;
+    block->next = next = block + block->size;
 
-        chunk->size = realsize;
-        chunk->used = 1;
-    }
+    next = block->next;
+    next->size = KERNEL_HEAP_END - (unsigned short)next;
+    next->used = 0;
+    next->next = 0;
 
-    kernel_heap->used += realsize;
-    return (char *)chunk + sizeof(malloc_header_t);
+    return block + sizeof(malloc_header_t);
 }
 
 void kfree(void *ptr) {
-    malloc_header_t *chunk, *other;
+    malloc_header_t *block, *next;
+    block = kernel_heap; // TODO: Figure out why I can't use `sizeof()` here.
 
-    if (ptr == 0) {
-        return;
+    while (block + sizeof(malloc_header_t) != ptr) {
+        block = block->next;
     }
 
-    chunk = (malloc_header_t *)((char *)ptr - sizeof(malloc_header_t));
-    chunk->used = 0;
+    next = block->next;
 
-    kernel_heap->used -= chunk->size;
+    block->used = 0;
 
-    while ((other = (malloc_header_t *)((char *)chunk + chunk->size))
-            && other < kernel_heap
-            && other->used == 0)
-    {
-        chunk->size += other->size;
+    if (next->used == 0) {
+        block->size += next->size;
+        block->next = next->next;
     }
+}
+
+short get_used_memory() {
+    malloc_header_t *block;
+    unsigned short total = 0;
+    block = kernel_heap;
+
+    while (block->next != 0) {
+        if (block->used) {
+            total += block->size;
+        }
+        block = block->next;
+    }
+
+    return total;
+}
+
+short get_free_memory() {
+    return KERNEL_HEAP_END - get_used_memory();
 }

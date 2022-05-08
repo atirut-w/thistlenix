@@ -5,6 +5,7 @@
 #include "interrupt.h"
 
 char *ptr = (char *)0;
+char *ptr2 = (char *)0;
 
 void irq() {
     DISABLE_IRQ();
@@ -17,11 +18,13 @@ void irq() {
     printhex(get_free_memory() & 0xff);
     print(" bytes free)\n");
 
-    ptr = kmalloc(0x10);
+    ptr = kmalloc(16);
+    ptr2 = kmalloc(16);
     kfree(ptr);
+    kfree(ptr2);
 
     // Reset timer
-    POKE(0xe05a, 10);
+    POKE(0xe05a, 1);
     POKE(0xe05b, 0);
 
     ENABLE_IRQ();
@@ -58,7 +61,7 @@ void main() {
     SET_HANDLER(0xfffe, irq);
 
     // Set up timer to trigger IRQ every tick(1/20 s)
-    POKE(0xe05a, 10);
+    POKE(0xe05a, 1);
     POKE(0xe05b, 0);
     POKE(0x0e05e, 1);
 
