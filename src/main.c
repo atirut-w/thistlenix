@@ -4,16 +4,24 @@
 #include "component.h"
 #include "interrupt.h"
 
+char *ptr = (char *)0;
+
 void irq() {
     DISABLE_IRQ();
 
-    // print("Current uptime in ticks: $");
-    // printhex(PEEK(0xe059));
-    // printhex(PEEK(0xe058));
-    // print("\n");
+    print("Kernel heap space used: $");
+    printhex(get_used_memory() >> 8);
+    printhex(get_used_memory() & 0xff);
+    print(" bytes($");
+    printhex(get_free_memory() >> 8);
+    printhex(get_free_memory() & 0xff);
+    print(" bytes free)\n");
+
+    ptr = kmalloc(0x10);
+    kfree(ptr);
 
     // Reset timer
-    POKE(0xe05a, 1);
+    POKE(0xe05a, 10);
     POKE(0xe05b, 0);
 
     ENABLE_IRQ();
@@ -44,13 +52,13 @@ void show_components() {
 
 void main() {
     initialize_kernel_heap();
-    show_components();
+    //show_components();
 
     // Set up IRQ handler
     SET_HANDLER(0xfffe, irq);
 
     // Set up timer to trigger IRQ every tick(1/20 s)
-    POKE(0xe05a, 1);
+    POKE(0xe05a, 10);
     POKE(0xe05b, 0);
     POKE(0x0e05e, 1);
 
