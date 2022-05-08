@@ -10,18 +10,13 @@ char *ptr2 = (char *)0;
 void irq() {
     DISABLE_IRQ();
 
-    print("Kernel heap space used: $");
-    printhex(get_used_memory() >> 8);
-    printhex(get_used_memory() & 0xff);
-    print(" bytes($");
-    printhex(get_free_memory() >> 8);
-    printhex(get_free_memory() & 0xff);
-    print(" bytes free)\n");
+    // print("Kernel heap space used: $");
+    // printshort(get_used_memory());
+    // print(" bytes($");
+    // printshort(get_free_memory());
+    // print(" bytes free)\n");
 
-    ptr = kmalloc(16);
-    ptr2 = kmalloc(16);
-    kfree(ptr);
-    kfree(ptr2);
+    //ptr = kmalloc(256);
 
     // Reset timer
     POKE(0xe05a, 1);
@@ -55,7 +50,7 @@ void show_components() {
 
 void main() {
     initialize_kernel_heap();
-    //show_components();
+    show_components();
 
     // Set up IRQ handler
     SET_HANDLER(0xfffe, irq);

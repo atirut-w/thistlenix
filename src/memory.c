@@ -6,12 +6,11 @@
 malloc_header_t *kernel_heap = (malloc_header_t *)KERNEL_HEAP_BEGIN;
 
 void initialize_kernel_heap() {
-    kernel_heap->size = KERNEL_HEAP_END - KERNEL_HEAP_BEGIN;
+    kernel_heap->size = KERNEL_HEAP_SIZE;
     kernel_heap->used = 0;
     kernel_heap->next = 0;
     print("Initialized kernel heap at $");
-    printhex(KERNEL_HEAP_BEGIN >> 8);
-    printhex(KERNEL_HEAP_BEGIN & 0xff);
+    printshort(KERNEL_HEAP_BEGIN);
     print("\n");
 }
 
@@ -86,5 +85,5 @@ short get_used_memory() {
 }
 
 short get_free_memory() {
-    return KERNEL_HEAP_END - get_used_memory();
+    return KERNEL_HEAP_SIZE - get_used_memory();
 }
