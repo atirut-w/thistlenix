@@ -3,5 +3,6 @@
 
 void print(const char *msg);
 void printhex(unsigned char val);
+void printshort(unsigned short val);
 
 #endif

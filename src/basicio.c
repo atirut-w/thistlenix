@@ -11,5 +11,10 @@ void printhex(unsigned char val) {
     char hex[] = "0123456789abcdef";
 
     POKE(0xE003, hex[val >> 4]);
-    POKE(0xE003, hex[val & 0xF]);
+    POKE(0xE003, hex[val & 0xf]);
+}
+
+void printshort(unsigned short val) {
+    printhex(val >> 8);
+    printhex(val & 0xff);
 }
