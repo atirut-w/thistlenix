@@ -18,7 +18,7 @@ typedef struct {
 } component_t;
 
 char get_component_count();
-char list_components(component_data_t *buffer);
+void get_component_info(component_data_t *data, char index);
 component_t *map_component(char *uuid);
 
 #endif
