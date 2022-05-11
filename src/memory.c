@@ -9,8 +9,10 @@ void initialize_kernel_heap() {
     kernel_heap->size = KERNEL_HEAP_SIZE;
     kernel_heap->used = 0;
     kernel_heap->next = 0;
-    print("Initialized kernel heap at $");
+    print("Initialized kernel heap from $");
     printshort(KERNEL_HEAP_BEGIN);
+    print(" to $");
+    printshort(KERNEL_HEAP_END);
     print("\n");
 }
 
