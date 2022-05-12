@@ -1,12 +1,18 @@
 # Compiler, assembler and linker
-CC65 = cc65
+# CC65 = cc65
 CA65 = ca65
 LD65 = ld65
 
-compile:
-	mkdir -p build
-	$(CA65) --cpu 65c02 src/main.s -o build/kernel.o
-	$(LD65) -C 3rd/Thistle/cc65/thistle.cfg -m build/kernel.map build/kernel.o -o build/kernel.bin
+build: assemble link
 
-clean:
-	@rm -rf build/kernel.o build/kernel.map
+# compile:
+# 	mkdir -p build/s
+# 	find src/ -name '*.s' -exec cp {} build/s/ \;
+# 	find src/ -name '*.c' -exec sh -c '$(CC65) -T -t none --cpu 65c02 -Isrc/include {} -o build/s/$$(basename {} .c).s' \;
+
+assemble:
+	mkdir -p build/o
+	find src/ -name '*.s' -exec sh -c '$(CA65) --cpu 65c02 {} -o build/o/$$(basename {} .s).o' \;
+
+link:
+	$(LD65) build/o/*.o -o build/kernel.bin -m build/kernel.map -C 3rd/Thistle/cc65/thistle.cfg
