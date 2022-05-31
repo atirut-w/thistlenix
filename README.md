@@ -8,6 +8,8 @@ This project has been archived, because during the development, I have discovere
 
 The bug affects indirect indexed memory accesses(`(zpptr),y`) when the resulting address crosses page boundaries. When this happens, the data will not be read or written from the next page, but the current page with the LSB of the address wrapped around. This project will be archived until the bug is fixed by Thistle devs.
 
+In the meanwhile, I have started a similar project also targetting a 65c02 addon for OpenComputers, OCMOS. The architecture is very different(User mode, MMU, etc.), but I have not encountered any bugs yet.
+
 # Building
 Building Thistlenix requires you to have the [CC65 cross-development package](https://cc65.github.io/) and GNU Make. Once you have those installed, just run `make` in the project directory. The compiled kernel will be placed in the `build` directory along with a map file.
 
